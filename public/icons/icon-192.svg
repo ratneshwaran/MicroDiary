@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
+  <rect width="192" height="192" rx="32" fill="#2563eb"/>
+  <!-- Open book pages -->
+  <rect x="44" y="52" width="44" height="88" rx="4" fill="#ffffff" opacity="0.9"/>
+  <rect x="104" y="52" width="44" height="88" rx="4" fill="#ffffff" opacity="0.9"/>
+  <!-- Spine -->
+  <rect x="92" y="52" width="8" height="88" fill="#1d4ed8"/>
+  <!-- Lines on left page -->
+  <rect x="52" y="72" width="28" height="4" rx="2" fill="#bfdbfe"/>
+  <rect x="52" y="84" width="28" height="4" rx="2" fill="#bfdbfe"/>
+  <rect x="52" y="96" width="20" height="4" rx="2" fill="#bfdbfe"/>
+  <rect x="52" y="108" width="28" height="4" rx="2" fill="#bfdbfe"/>
+  <rect x="52" y="120" width="16" height="4" rx="2" fill="#bfdbfe"/>
+  <!-- Lines on right page -->
+  <rect x="112" y="72" width="28" height="4" rx="2" fill="#bfdbfe"/>
+  <rect x="112" y="84" width="20" height="4" rx="2" fill="#bfdbfe"/>
+  <rect x="112" y="96" width="28" height="4" rx="2" fill="#bfdbfe"/>
+  <rect x="112" y="108" width="24" height="4" rx="2" fill="#bfdbfe"/>
+  <rect x="112" y="120" width="28" height="4" rx="2" fill="#bfdbfe"/>
+</svg>

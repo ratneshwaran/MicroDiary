@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="MicroDiary – an offline-first, accessible time-use diary for population time-use research. Record your daily activities without needing internet access."
+    />
+    <meta name="theme-color" content="#2563eb" />
+    <link rel="icon" href="/icons/icon-192.svg" type="image/svg+xml" />
+    <title>MicroDiary — Time-Use Diary</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <!-- Skip link – lets keyboard users bypass navigation and jump straight to the form -->
+    <a class="skip-link" href="#entry-form">Skip to entry form</a>
+
+    <!-- Offline status banner (hidden when online) -->
+    <div
+      id="offline-banner"
+      role="status"
+      aria-live="polite"
+      aria-label="Connection status"
+      hidden
+    >
+      ⚡ You are offline — changes are saved locally and will persist.
+    </div>
+
+    <!-- Screen-reader-only live region for polite success announcements -->
+    <div id="live-region" aria-live="polite" aria-atomic="true"></div>
+
+    <div class="app-wrapper">
+      <!-- ── App header ─────────────────────────────────────────────── -->
+      <header class="app-header">
+        <h1>MicroDiary</h1>
+        <p>Offline-first time-use diary · data stays on your device</p>
+      </header>
+
+      <!-- ── Error summary (shown on submit failure, focused automatically) ── -->
+      <div
+        id="error-summary"
+        role="alert"
+        tabindex="-1"
+        aria-labelledby="error-summary-heading"
+        hidden
+      >
+        <h2 id="error-summary-heading">Please correct the following errors</h2>
+        <ul id="error-summary-list"></ul>
+      </div>
+
+      <!-- ── Date selector ───────────────────────────────────────────── -->
+      <section aria-labelledby="date-heading" class="card">
+        <h2 id="date-heading">Diary Date</h2>
+        <div class="date-row">
+          <label for="diary-date">Viewing entries for:</label>
+          <input
+            type="date"
+            id="diary-date"
+            name="diary-date"
+            aria-describedby="date-hint"
+          />
+          <span id="date-hint" class="sr-only">
+            Choose a date to view or add diary entries for that day.
+          </span>
+        </div>
+      </section>
+
+      <!-- ── Entry form ──────────────────────────────────────────────── -->
+      <section aria-labelledby="form-heading" class="card">
+        <h2 id="form-heading">Add Entry</h2>
+
+        <form id="entry-form" novalidate aria-describedby="form-desc">
+          <p id="form-desc" class="sr-only">
+            All fields marked with an asterisk (*) are required.
+          </p>
+
+          <!-- Activity name -->
+          <div class="field">
+            <label for="activity">
+              Activity
+              <span class="required-mark" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="text"
+              id="activity"
+              name="activity"
+              required
+              aria-required="true"
+              aria-describedby="activity-error"
+              autocomplete="off"
+              maxlength="200"
+              placeholder="e.g. Morning walk"
+            />
+            <span
+              id="activity-error"
+              class="field-error"
+              role="alert"
+              aria-live="assertive"
+              hidden
+            ></span>
+          </div>
+
+          <!-- Category -->
+          <div class="field">
+            <label for="category">
+              Category
+              <span class="required-mark" aria-hidden="true">*</span>
+            </label>
+            <!-- Options populated by app.ts from constants (single source of truth) -->
+            <select
+              id="category"
+              name="category"
+              required
+              aria-required="true"
+              aria-describedby="category-error"
+            >
+              <option value="">— Select a category —</option>
+            </select>
+            <span
+              id="category-error"
+              class="field-error"
+              role="alert"
+              aria-live="assertive"
+              hidden
+            ></span>
+          </div>
+
+          <!-- Start time / End time on one row -->
+          <div class="time-row">
+            <div class="field">
+              <label for="start-time">
+                Start time
+                <span class="required-mark" aria-hidden="true">*</span>
+              </label>
+              <input
+                type="time"
+                id="start-time"
+                name="startTime"
+                required
+                aria-required="true"
+                aria-describedby="start-time-error"
+              />
+              <span
+                id="start-time-error"
+                class="field-error"
+                role="alert"
+                aria-live="assertive"
+                hidden
+              ></span>
+            </div>
+
+            <div class="field">
+              <label for="end-time">
+                End time
+                <span class="required-mark" aria-hidden="true">*</span>
+              </label>
+              <input
+                type="time"
+                id="end-time"
+                name="endTime"
+                required
+                aria-required="true"
+                aria-describedby="end-time-error"
+              />
+              <span
+                id="end-time-error"
+                class="field-error"
+                role="alert"
+                aria-live="assertive"
+                hidden
+              ></span>
+            </div>
+          </div>
+
+          <!-- Notes (optional) -->
+          <div class="field">
+            <label for="notes">Notes <span class="sr-only">(optional)</span></label>
+            <p id="notes-hint" class="field-hint">
+              Optional. Any additional context about this activity.
+            </p>
+            <textarea
+              id="notes"
+              name="notes"
+              rows="3"
+              maxlength="2000"
+              aria-describedby="notes-hint notes-error"
+              placeholder="e.g. Walked to the park with the dog"
+            ></textarea>
+            <span
+              id="notes-error"
+              class="field-error"
+              role="alert"
+              aria-live="assertive"
+              hidden
+            ></span>
+          </div>
+
+          <!-- Actions -->
+          <div class="form-actions">
+            <button type="submit" id="save-btn" class="btn btn-primary">
+              Save Entry
+            </button>
+            <button type="button" id="clear-btn" class="btn btn-secondary">
+              Clear Form
+            </button>
+          </div>
+
+          <!-- Autosave status – polite live region -->
+          <p id="last-saved" aria-live="polite" aria-atomic="true"></p>
+        </form>
+      </section>
+
+      <!-- ── Export ──────────────────────────────────────────────────── -->
+      <section aria-labelledby="export-heading" class="card">
+        <h2 id="export-heading">Export Data</h2>
+        <p class="export-description">
+          Download all diary entries as JSON (structured, with metadata) or CSV
+          (for spreadsheets). Exports include all dates.
+        </p>
+        <div class="export-actions">
+          <button type="button" id="export-json-btn" class="btn btn-secondary">
+            Export JSON
+          </button>
+          <button type="button" id="export-csv-btn" class="btn btn-secondary">
+            Export CSV
+          </button>
+        </div>
+      </section>
+
+      <!-- ── Timeline ────────────────────────────────────────────────── -->
+      <section aria-labelledby="timeline-heading" class="card">
+        <h2 id="timeline-heading">Today's Entries</h2>
+
+        <!-- Gap warning (non-blocking, informational only) -->
+        <div
+          id="gap-warning"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+          hidden
+        ></div>
+
+        <!-- Entry list -->
+        <ul
+          id="entries-list"
+          aria-label="Diary entries for selected date"
+          aria-live="polite"
+        ></ul>
+
+        <!-- Empty state -->
+        <p id="no-entries" hidden>
+          No entries recorded for this date yet. Use the form above to add your
+          first activity.
+        </p>
+      </section>
+    </div><!-- /.app-wrapper -->
+
+    <script type="module" src="/src/app.ts"></script>
+  </body>
+</html>
